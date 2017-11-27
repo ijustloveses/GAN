@@ -7,6 +7,7 @@ import os
 import tensorflow as tf
 import numpy as np
 from utils import save_images
+from datetime import datetime
 
 slim = tf.contrib.slim
 
@@ -211,7 +212,7 @@ def train():
     print('batch size: {}, batch num per epoch: {}, epoch num:{}'.format(BATCH_SIZE, batch_num, EPOCH))
     for i in range(EPOCH):
         print("--------------------------------------")
-        print("Epoch {} ...".format(i))
+        print("{} Epoch {} ...".format(str(datetime.now()), i))
         for j in range(batch_num):
             print("batch {} ...".format(j))
             d_iters = 5
@@ -232,12 +233,12 @@ def train():
                 _, gLoss = sess.run([trainer_g, g_loss],
                                     feed_dict={random_input: train_noise, is_training: True})
 
-        if i + 1 % 500 == 0:
+        if (i + 1) % 250 == 0:
             saver.save(sess, './model/' + version + '/' + str(i + 1))
 
             sample_noise = np.random.uniform(-1.0, 1.0, size=[BATCH_SIZE, random_dim]).astype(np.float32)
             imgtest = sess.run(fake_image, feed_dict={random_input: sample_noise, is_training: False})
-            save_images(imgtest, [8, 8], newPoke_path + '/epoch' + str(i) + '.jpg')
+            save_images(imgtest, [8, 8], newPoke_path + '/epoch' + str(i + 1) + '.jpg')
             print('train epoch: [{}], d_loss:{}, g_loss:{}'.format(i, dLoss, gLoss))
 
     coord.request_stop()
