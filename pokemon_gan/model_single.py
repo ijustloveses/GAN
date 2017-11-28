@@ -29,7 +29,7 @@ def lrelu(x, n, leak=0.2):
 def process_data():
     # image files => content queue
     current_dir = os.getcwd()
-    pokemon_dir = os.path.join(current_dir, 'data')
+    pokemon_dir = os.path.join(current_dir, 'resized_black')
     images = []
     for each in os.listdir(pokemon_dir):
         images.append(os.path.join(pokemon_dir, each))
